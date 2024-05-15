@@ -1,0 +1,65 @@
+CREATE DATABASE clothinginventory;
+
+
+CREATE TABLE User (
+    userID int NOT NULL AUTO_INCREMENT,
+    Username varchar(30) NOT NULL,
+    Password varchar(30) NOT NULL,
+    Name varchar(60) NOT NULL,
+    PhoneNum varchar(10) NOT NULL,
+    Address varchar(80) NOT NULL,
+    Role int NOT NULL,
+    PRIMARY KEY (userID)
+);
+
+
+CREATE TABLE restock (
+    restockID INT AUTO_INCREMENT,
+    restockDate DATE NOT NULL,
+    PRIMARY KEY (restockID)
+);
+
+
+CREATE TABLE category(
+    catID INT(5) NOT NULL PRIMARY KEY, 
+    catName VARCHAR(20)
+);
+
+
+INSERT INTO category (catID, catName)
+VALUES (1, 'Winter Apparel');
+
+INSERT INTO category (catID, catName)
+VALUES (2, 'Summer Apparel');
+
+INSERT INTO category (catID, catName)
+VALUES (3, 'Autumn Apparel');
+
+INSERT INTO category (catID, catName)
+VALUES (4, 'Spring Apparel');
+
+
+CREATE TABLE product( 
+    productID INT(11) NOT NULL, 
+    productName VARCHAR(50) NOT NULL,
+    productPrice DOUBLE NOT NULL, 
+    productStock INT(11) NOT NULL, 
+    supplierID INT(11) NOT NULL, 
+    catID INT(5) NOT NULL,
+    PRIMARY KEY (productID),
+    FOREIGN KEY (supplierID) REFERENCES User(userID),
+    FOREIGN KEY (catID) REFERENCES category(catID)
+);
+
+
+CREATE TABLE restockProduct (
+    rpID INT AUTO_INCREMENT,
+    rpQuantity INT NOT NULL,
+    rpTotalPrice DOUBLE NOT NULL,
+    rpStatus VARCHAR(30) NOT NULL,
+    restockID INT NOT NULL,
+    productID INT NOT NULL,
+    PRIMARY KEY (rpID),
+    FOREIGN KEY (restockID) REFERENCES restock(restockID),
+    FOREIGN KEY (productID) REFERENCES product(productID)
+);
